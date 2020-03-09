@@ -313,11 +313,18 @@ insert into recommendations(user_id, movie_id) values(23,12);
 */
 -- CREATE 2 VIEWS
 
--- View #1
+-- View #1 If user wishes to a list of the most recent releases
+create view NEWEST_MOVIES as select m.title as Title, g.genre_name as Genre, 
+    m.release_year as ReleaseDate, d.director_fname || ' ' || d.director_lname as Director
+        from Movie m join Director d on m.director_id = d.director_id
+            join Genre g on g.genre_id = m.genre_id
+            where m.release_year > 2018;
 
-
--- View #2
-
+-- View #2 View that list friends name of a specific user
+create view FRIENDS as select s.first_name || ' ' || s.last_name as FriendsName
+    from SERVICE_USER s join FRIENDS_LIST f on s.user_id = f.friend_id 
+        where f.user_id like 28;
+      
 
 /*
 =====================================================================
@@ -365,7 +372,7 @@ select user_id, count(*) as NUMBER_OF_RECOMENDATIONS from recommendations group 
 
 
 -- Query #6
-
+delete from FRIENDS_LIST where USER_ID like 6 and FRIEND_ID like 3;
 
 -- Query #7
 insert into service_user(first_name, last_name, email) values ('John', 'Doe', 'johndoe@gmail.com');

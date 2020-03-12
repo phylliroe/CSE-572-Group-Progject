@@ -338,7 +338,7 @@ create view FRIENDS as select s.first_name || ' ' || s.last_name as FriendsName
     AT LEAST 2 UPDATE STATEMNETS
     AT LEAST 1 DELETE
 */
--- Query #1
+-- Query #1 - Display the title, director, genre, and release year of all movies
 select
     m.title,
     dir.director_lname || ', ' || dir.director_fname as DIRECTOR,
@@ -348,7 +348,7 @@ from movie m
 join director dir on dir.director_id = m.director_id
 join genre g on g.genre_id = m.genre_id;
 
--- Query #2
+-- Query #2 - Display all movies that are currently being recommended to the user with the user ID '23'
 select
     m.title,
     dir.director_lname || ', ' || dir.director_fname as DIRECTOR,
@@ -360,14 +360,14 @@ join genre g on g.genre_id = m.genre_id
 join recommendations r on r.movie_id = m.movie_id
     where r.user_id = 23;
 
--- Query #3
+-- Query #3 - Display the number of movies currently being recommended to each user
 select user_id, count(*) as NUMBER_OF_RECOMENDATIONS from recommendations group by user_id;
 
--- Query #4
+-- Query #4 - Display the number of movies in the MOVIE table that were released in each year after 2010
 select release_year, count(movie_id) as NUMBER_OF_FILMS from movie 
 group by release_year having release_year >= 2010 order by release_year;
 
--- Query #5
+-- Query #5 - Display how many users each movie in the RECOMMENDATIONS table is being recommended to
 select 
     m.title,
     count(r.movie_id) as TIMES_RECOMMENDED
@@ -375,23 +375,21 @@ from movie m
 join recommendations r on r.movie_id = m.movie_id
 group by m.title;
 
--- Query #6
+-- Query #6 - Remove a pair of users from the FRIENDS_LIST table
 delete from FRIENDS_LIST where USER_ID like 6 and FRIEND_ID like 3;
 
--- Query #7
+-- Query #7 - Insert a new user into the SERVICE_USER table
 insert into service_user(first_name, last_name, email) values ('John', 'Doe', 'johndoe@gmail.com');
 
--- Query #8
+-- Query #8 - Update a user's name
 update service_user set first_name = 'Kevin', last_name = 'Hart' where user_id = 2;
 -- select * from service_user where user_id = 2;
 
--- Query #9
+-- Query #9 - Update a user's rating for a movie in WATCHED_LIST
 update watched_list set rating = 'good' where user_id = 1 and movie_id = 15;
--- select * from watched_list where user_id = 1;
 
--- Query #10
+-- Query #10 - Display everything in RECOMMENDATIONS
 select * from recommendations;
--- select * from recommendations;
 
 --- ========================================================================
 select * from service_user;
